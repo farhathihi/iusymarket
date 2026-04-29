@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="admin-body">
+  <!-- Admin Sidebar -->
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-logo">iusymarket<span class="logo-dot">.</span></a>
+      <span class="sidebar-label">ADMIN PANEL</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/admin" class="sidebar-link <%= title.includes('Dashboard') ? 'active' : '' %>">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a href="/admin/products" class="sidebar-link <%= title.includes('Product') ? 'active' : '' %>">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Products
+      </a>
+      <a href="/admin/users" class="sidebar-link <%= title.includes('Users') ? 'active' : '' %>">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Users
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-user-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="sidebar-user-info">
+          <span class="sidebar-user-name"><%= user.username %></span>
+          <span class="sidebar-user-role">Administrator</span>
+        </div>
+      </div>
+      <a href="/auth/logout" class="sidebar-link sidebar-logout">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </a>
+    </div>
+  </aside>
+
+  <!-- Admin Content -->
+  <main class="admin-main" id="admin-main">
+    <header class="admin-header">
+      <button class="admin-menu-toggle" id="admin-menu-toggle">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <h2 class="admin-page-title">Dashboard</h2>
+      <a href="/" class="admin-view-site" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View Site
+      </a>
+    </header>
+
+    <% if (success && success.length > 0) { %>
+      <div class="flash-message flash-success" id="flash-msg">
+        <span><%= success[0] %></span>
+        <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+      </div>
+    <% } %>
+    <% if (error && error.length > 0) { %>
+      <div class="flash-message flash-error" id="flash-msg">
+        <span><%= error[0] %></span>
+        <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+      </div>
+    <% } %>
+
+    <!-- Stats Cards -->
+    <div class="admin-stats">
+      <div class="stat-card-admin">
+        <div class="stat-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <div class="stat-card-content">
+          <span class="stat-card-number" data-count="<%= totalProducts %>">0</span>
+          <span class="stat-card-label">Total Products</span>
+        </div>
+      </div>
+      <div class="stat-card-admin">
+        <div class="stat-card-icon users-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="stat-card-content">
+          <span class="stat-card-number" data-count="<%= totalUsers %>">0</span>
+          <span class="stat-card-label">Registered Users</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Chart -->
+    <div class="admin-chart-card">
+      <h3>Activity Overview (Last 6 Months)</h3>
+      <div class="chart-bars" id="chart-bars"></div>
+      <div class="chart-legend">
+        <div class="chart-legend-item"><span class="chart-legend-dot" style="background:#555"></span> Products Added</div>
+        <div class="chart-legend-item"><span class="chart-legend-dot" style="background:#60a5fa"></span> Users Registered</div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="admin-grid">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3>Recent Products</h3>
+          <a href="/admin/products" class="admin-card-link">View All →</a>
+        </div>
+        <% if (recentProducts.length > 0) { %>
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Price</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% recentProducts.forEach(product => { %>
+                  <tr>
+                    <td>
+                      <div class="table-product">
+                        <% if (product.image) { %>
+                          <img src="/uploads/<%= product.image %>" alt="" class="table-product-img">
+                        <% } else { %>
+                          <div class="table-product-img-placeholder">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                          </div>
+                        <% } %>
+                        <span><%= product.name %></span>
+                      </div>
+                    </td>
+                    <td>Rp <%= product.price.toLocaleString('id-ID') %></td>
+                    <td><%= new Date(product.created_at).toLocaleDateString('id-ID') %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p class="admin-empty">No products yet. <a href="/admin/products/add">Add your first product</a></p>
+        <% } %>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3>Recent Users</h3>
+          <a href="/admin/users" class="admin-card-link">View All →</a>
+        </div>
+        <% if (recentUsers.length > 0) { %>
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Joined</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% recentUsers.forEach(u => { %>
+                  <tr>
+                    <td><%= u.username %></td>
+                    <td><%= u.email %></td>
+                    <td><%= new Date(u.created_at).toLocaleDateString('id-ID') %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p class="admin-empty">No registered users yet.</p>
+        <% } %>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/admin.js"></script>
+  <script>
+    // Render chart
+    const chartData = <%- chartData %>;
+    const userChartData = <%- userChartData %>;
+    const container = document.getElementById('chart-bars');
+    if (container) {
+      const maxVal = Math.max(...chartData.map(d => d.value), ...userChartData.map(d => d.value), 1);
+      chartData.forEach((item, i) => {
+        const userData = userChartData[i];
+        const group = document.createElement('div');
+        group.className = 'chart-bar-group';
+        const barsRow = document.createElement('div');
+        barsRow.style.cssText = 'display:flex;gap:3px;align-items:flex-end;height:140px;width:100%';
+        const bar1 = document.createElement('div');
+        bar1.className = 'chart-bar';
+        bar1.style.height = Math.max((item.value / maxVal) * 130, 4) + 'px';
+        bar1.style.background = 'linear-gradient(to top, #333, #666)';
+        bar1.innerHTML = '<span class="chart-bar-value">' + item.value + '</span>';
+        bar1.style.flex = '1';
+        const bar2 = document.createElement('div');
+        bar2.className = 'chart-bar';
+        bar2.style.height = Math.max((userData.value / maxVal) * 130, 4) + 'px';
+        bar2.style.background = 'linear-gradient(to top, #1e3a5f, #60a5fa)';
+        bar2.innerHTML = '<span class="chart-bar-value">' + userData.value + '</span>';
+        bar2.style.flex = '1';
+        barsRow.appendChild(bar1);
+        barsRow.appendChild(bar2);
+        const label = document.createElement('span');
+        label.className = 'chart-bar-label';
+        label.textContent = item.label;
+        group.appendChild(barsRow);
+        group.appendChild(label);
+        container.appendChild(group);
+        // Animate
+        setTimeout(() => { bar1.style.height = Math.max((item.value / maxVal) * 130, 4) + 'px'; }, i * 100);
+      });
+    }
+  </script>
+</body>
+</html>

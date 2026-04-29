@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="<%= product.name %> - <%= product.description ? product.description.substring(0, 150) : 'Premium Nike Tech Fleece at iusymarket' %>">
+  <title><%= title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+
+  <% if (success && success.length > 0) { %>
+    <div class="flash-message flash-success" id="flash-msg">
+      <span><%= success[0] %></span>
+      <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+    </div>
+  <% } %>
+
+  <section class="product-detail section-padding">
+    <div class="container">
+      <a href="/products" class="back-link animate-fade-up">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to Products
+      </a>
+
+      <div class="detail-grid">
+        <!-- Product Image Gallery -->
+        <div class="detail-image-section animate-fade-up">
+          <div class="detail-image-wrapper">
+            <% if (product.image) { %>
+              <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" class="detail-image" id="detail-main-img">
+            <% } else { %>
+              <div class="detail-image-placeholder">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <p>No Image Available</p>
+              </div>
+            <% } %>
+            <% if (product.condition_status && product.condition_status !== 'New') { %>
+              <span class="detail-badge"><%= product.condition_status %></span>
+            <% } %>
+          </div>
+          <% if (gallery && gallery.length > 0) { %>
+            <div class="gallery-thumbs" id="gallery-thumbs">
+              <div class="gallery-thumb active" onclick="switchImage('/uploads/<%= product.image %>', this)">
+                <img src="/uploads/<%= product.image %>" alt="Main">
+              </div>
+              <% gallery.forEach(img => { %>
+                <div class="gallery-thumb" onclick="switchImage('/uploads/<%= img.filename %>', this)">
+                  <img src="/uploads/<%= img.filename %>" alt="Gallery">
+                </div>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+
+        <!-- Product Info -->
+        <div class="detail-info-section animate-fade-up delay-1">
+          <span class="detail-category"><%= product.category %></span>
+          <h1 class="detail-name"><%= product.name %></h1>
+          <p class="detail-price">Rp <%= product.price.toLocaleString('id-ID') %></p>
+
+          <% if (product.description) { %>
+            <div class="detail-description">
+              <h3>Description</h3>
+              <p><%= product.description %></p>
+            </div>
+          <% } %>
+
+          <!-- Sizes -->
+          <% if (sizes && sizes.length > 0) { %>
+            <div class="detail-sizes">
+              <h3>Available Sizes</h3>
+              <div class="size-grid">
+                <% sizes.forEach(size => { %>
+                  <div class="size-chip">
+                    <span class="size-label"><%= size.size %></span>
+                  </div>
+                <% }) %>
+              </div>
+            </div>
+          <% } %>
+
+          <!-- Defects / Minus -->
+          <% if (defects && defects.length > 0) { %>
+            <div class="detail-defects">
+              <h3>Condition Notes (Minus)</h3>
+              <ul class="defects-list">
+                <% defects.forEach(defect => { %>
+                  <li>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <%= defect.description %>
+                  </li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } %>
+
+          <div class="detail-condition">
+            <span class="condition-label">Condition:</span>
+            <span class="condition-value"><%= product.condition_status %></span>
+          </div>
+
+          <!-- Order Actions -->
+          <div class="detail-actions">
+            <a href="https://wa.me/6285691913965?text=Halo%20iusymarket!%20Saya%20tertarik%20dengan%20produk%20*<%= encodeURIComponent(product.name) %>*%20(Rp%20<%= product.price.toLocaleString('id-ID') %>).%20Apakah%20masih%20tersedia?" target="_blank" class="btn btn-primary btn-full order-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+              Order via WhatsApp
+            </a>
+            <a href="https://www.instagram.com/iusymarket" target="_blank" class="btn btn-outline btn-full order-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              Order via Instagram
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+  <script>
+    function switchImage(src, thumb) {
+      const mainImg = document.getElementById('detail-main-img');
+      if (mainImg) {
+        mainImg.style.opacity = '0';
+        setTimeout(() => {
+          mainImg.src = src;
+          mainImg.style.opacity = '1';
+        }, 200);
+      }
+      document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
+    }
+  </script>
+</body>
+</html>

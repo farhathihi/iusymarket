@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <% if (success && success.length > 0) { %>
+    <div class="flash-message flash-success" id="flash-msg">
+      <span><%= success[0] %></span>
+      <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+    </div>
+  <% } %>
+  <% if (error && error.length > 0) { %>
+    <div class="flash-message flash-error" id="flash-msg">
+      <span><%= error[0] %></span>
+      <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+    </div>
+  <% } %>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero-label animate-fade-up">SUPPORT</span>
+      <h1 class="page-hero-title animate-fade-up delay-1">Help Center</h1>
+      <p class="page-hero-subtitle animate-fade-up delay-2">Find answers to your questions</p>
+    </div>
+  </section>
+
+  <section class="help-content section-padding">
+    <div class="container">
+      <div class="help-grid">
+        <div class="help-card scroll-reveal">
+          <h3>How to Order?</h3>
+          <p>Browse our products, select the one you like, and contact us via WhatsApp or Instagram to place your order. We'll guide you through the process!</p>
+        </div>
+        <div class="help-card scroll-reveal">
+          <h3>Payment Methods</h3>
+          <p>We accept bank transfer (BCA, BNI, Mandiri, BRI) and e-wallet payments (GoPay, OVO, Dana). Payment details will be shared after order confirmation.</p>
+        </div>
+        <div class="help-card scroll-reveal">
+          <h3>Shipping</h3>
+          <p>We ship nationwide using JNE, J&T, SiCepat, and AnterAja. Shipping costs are calculated based on your location. We'll provide tracking info after shipping.</p>
+        </div>
+        <div class="help-card scroll-reveal">
+          <h3>Product Condition</h3>
+          <p>Each product listing includes detailed condition info. "New" means brand new with tags. Any minus or defects are clearly listed on the product detail page.</p>
+        </div>
+        <div class="help-card scroll-reveal">
+          <h3>Returns & Exchanges</h3>
+          <p>If you receive an item that doesn't match the description, contact us within 24 hours of delivery. We'll work to resolve the issue.</p>
+        </div>
+        <div class="help-card scroll-reveal">
+          <h3>Need More Help?</h3>
+          <p>Don't hesitate to reach out! Contact us via <a href="https://wa.me/6285691913965" target="_blank">WhatsApp</a> or <a href="https://www.instagram.com/iusymarket" target="_blank">Instagram</a> and we'll respond as quickly as possible.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse our premium Nike Tech Fleece collection at iusymarket.">
+  <title><%= title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+
+  <% if (success && success.length > 0) { %>
+    <div class="flash-message flash-success" id="flash-msg">
+      <span><%= success[0] %></span>
+      <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+    </div>
+  <% } %>
+  <% if (error && error.length > 0) { %>
+    <div class="flash-message flash-error" id="flash-msg">
+      <span><%= error[0] %></span>
+      <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+    </div>
+  <% } %>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero-label animate-fade-up">COLLECTION</span>
+      <h1 class="page-hero-title animate-fade-up delay-1">Our Products</h1>
+      <p class="page-hero-subtitle animate-fade-up delay-2">Browse our curated selection of Nike Tech Fleece</p>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products-section section-padding">
+    <div class="container">
+      <!-- Search Bar -->
+      <div class="products-toolbar scroll-reveal">
+        <form action="/products" method="GET" class="search-form" id="search-form">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" name="search" placeholder="Search products..." value="<%= search %>" class="search-input" id="search-input">
+            <% if (search) { %>
+              <a href="/products" class="search-clear">&times;</a>
+            <% } %>
+          </div>
+          <button type="submit" class="btn btn-dark btn-sm">Search</button>
+        </form>
+        <div class="products-count">
+          <span><%= products.length %> product<%= products.length !== 1 ? 's' : '' %> found</span>
+        </div>
+      </div>
+
+      <% if (products.length > 0) { %>
+        <div class="products-grid">
+          <% products.forEach((product, i) => { %>
+            <a href="/products/<%= product.id %>" class="product-card scroll-reveal" style="--delay: <%= (i % 4) * 0.1 %>s">
+              <div class="product-image-wrapper product-image-tall">
+                <% if (product.image) { %>
+                  <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" class="product-image" loading="lazy">
+                <% } else { %>
+                  <div class="product-image-placeholder">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  </div>
+                <% } %>
+                <div class="product-overlay">
+                  <span class="product-overlay-text">View Details</span>
+                </div>
+                <% if (product.condition_status && product.condition_status !== 'New') { %>
+                  <span class="product-badge"><%= product.condition_status %></span>
+                <% } %>
+              </div>
+              <div class="product-info">
+                <span class="product-category"><%= product.category %></span>
+                <h3 class="product-name"><%= product.name %></h3>
+                <p class="product-price">Rp <%= product.price.toLocaleString('id-ID') %></p>
+              </div>
+            </a>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="empty-state scroll-reveal">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <h3>No Products Found</h3>
+          <% if (search) { %>
+            <p>No products match "<%= search %>". Try a different search term.</p>
+            <a href="/products" class="btn btn-dark">View All Products</a>
+          <% } else { %>
+            <p>Products will be available soon. Stay tuned!</p>
+            <a href="/" class="btn btn-dark">Back to Home</a>
+          <% } %>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

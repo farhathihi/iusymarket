@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="iusymarket - Premium Nike Tech Fleece Collection. Shop authentic Nike Tech Fleece jackets and hoodies.">
+  <title><%= title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <!-- Flash Messages -->
+  <% if (success && success.length > 0) { %>
+    <div class="flash-message flash-success" id="flash-msg">
+      <span><%= success[0] %></span>
+      <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+    </div>
+  <% } %>
+  <% if (error && error.length > 0) { %>
+    <div class="flash-message flash-error" id="flash-msg">
+      <span><%= error[0] %></span>
+      <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+    </div>
+  <% } %>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="hero-overlay"></div>
+      <img src="/images/hero-banner.png" alt="Nike Tech Fleece Collection" class="hero-img">
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge animate-fade-up">PREMIUM COLLECTION</div>
+      <h1 class="hero-title animate-fade-up delay-1">Nike Tech<br>Fleece</h1>
+      <p class="hero-subtitle animate-fade-up delay-2">Discover our curated selection of authentic Nike Tech Fleece. Engineered for warmth, designed for style.</p>
+      <div class="hero-actions animate-fade-up delay-3">
+        <a href="/products" class="btn btn-primary">Explore Collection</a>
+        <a href="/about" class="btn btn-outline">Learn More</a>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator animate-bounce">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features section-padding" id="features">
+    <div class="container">
+      <div class="features-grid">
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <h3>100% Authentic</h3>
+          <p>Every piece is guaranteed authentic with quality assurance</p>
+        </div>
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <h3>Fast Delivery</h3>
+          <p>Quick and reliable shipping to your doorstep</p>
+        </div>
+        <div class="feature-card scroll-reveal">
+          <div class="feature-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Trusted Seller</h3>
+          <p>Hundreds of satisfied customers across Indonesia</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products Section -->
+  <% if (products && products.length > 0) { %>
+  <section class="featured-products section-padding" id="featured-products">
+    <div class="container">
+      <div class="section-header scroll-reveal">
+        <span class="section-label">NEW ARRIVALS</span>
+        <h2 class="section-title">Latest Collection</h2>
+        <p class="section-subtitle">Handpicked premium Nike Tech Fleece pieces</p>
+      </div>
+
+      <div class="products-grid">
+        <% products.forEach((product, i) => { %>
+          <a href="/products/<%= product.id %>" class="product-card scroll-reveal" style="--delay: <%= i * 0.1 %>s">
+            <div class="product-image-wrapper">
+              <% if (product.image) { %>
+                <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" class="product-image" loading="lazy">
+              <% } else { %>
+                <div class="product-image-placeholder">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+              <% } %>
+              <div class="product-overlay">
+                <span class="product-overlay-text">View Details</span>
+              </div>
+            </div>
+            <div class="product-info">
+              <span class="product-category"><%= product.category %></span>
+              <h3 class="product-name"><%= product.name %></h3>
+              <p class="product-price">Rp <%= product.price.toLocaleString('id-ID') %></p>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+
+      <div class="section-cta scroll-reveal">
+        <a href="/products" class="btn btn-dark">View All Products</a>
+      </div>
+    </div>
+  </section>
+  <% } %>
+
+  <!-- CTA Section -->
+  <section class="cta-section" id="cta">
+    <div class="container">
+      <div class="cta-content scroll-reveal">
+        <h2>Ready to Upgrade Your Style?</h2>
+        <p>Browse our complete collection of Nike Tech Fleece and find your perfect fit.</p>
+        <div class="cta-actions">
+          <a href="/products" class="btn btn-primary">Shop Now</a>
+          <a href="https://wa.me/6285691913965" target="_blank" class="btn btn-outline">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

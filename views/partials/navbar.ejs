@@ -1,0 +1,48 @@
+<nav class="navbar" id="navbar">
+  <script>
+    // Auto-detect if page has hero (landing page) - if not, add nav-light
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!document.querySelector('.hero')) {
+        document.getElementById('navbar').classList.add('nav-light');
+      }
+    });
+  </script>
+  <div class="nav-container">
+    <a href="/" class="nav-logo" id="nav-logo">
+      <span class="logo-text">iusymarket<span class="logo-dot">.</span></span>
+    </a>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <span class="hamburger"></span>
+    </button>
+
+    <ul class="nav-menu" id="nav-menu">
+      <li class="nav-item">
+        <a href="/" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item">
+        <a href="/products" class="nav-link">Product</a>
+      </li>
+      <li class="nav-item">
+        <a href="/about" class="nav-link">About</a>
+      </li>
+      <li class="nav-item">
+        <a href="/about#contact" class="nav-link">Contact</a>
+      </li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="/help" class="nav-action-link">Help</a>
+      <span class="nav-divider">|</span>
+      <% if (user) { %>
+        <% if (user.role === 'admin') { %>
+          <a href="/admin" class="nav-action-link">Dashboard</a>
+          <span class="nav-divider">|</span>
+        <% } %>
+        <a href="/auth/logout" class="nav-action-link">Sign Out</a>
+      <% } else { %>
+        <a href="/auth/login" class="nav-action-link">Sign In</a>
+      <% } %>
+    </div>
+  </div>
+</nav>
