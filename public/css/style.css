@@ -403,7 +403,11 @@ input, select, textarea { font-family: inherit; font-size: 0.95rem; }
 @media (max-width: 768px) {
   .nav-menu { position: fixed; top: 0; right: -100%; width: 80%; height: 100vh; background: var(--white); flex-direction: column; justify-content: center; align-items: center; gap: 24px; transition: var(--transition); box-shadow: -10px 0 40px rgba(0,0,0,.1); }
   .nav-menu.active { right: 0; }
+  .nav-menu .nav-link { color: var(--dark) !important; font-size: 1.2rem; }
+  .nav-menu .nav-link::after { background: var(--dark) !important; }
   .nav-toggle { display: block; }
+  .nav-toggle.active .hamburger::before,
+  .nav-toggle.active .hamburger::after { background: var(--dark) !important; }
   .nav-actions { display: none; }
   .hero-title { font-size: 2.6rem; }
   .features-grid { grid-template-columns: 1fr; }
